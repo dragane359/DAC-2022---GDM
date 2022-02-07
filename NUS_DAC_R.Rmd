@@ -1,0 +1,22 @@
+---
+title: "nus dac"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r combine, echo=TRUE}
+library(dplyr)
+library(readr)
+j1 <- read_csv("Desktop/DAC/sg/j1.csv") %>% data.frame()
+j1["country"] = 0
+
+sg1 <- read_csv("Desktop/DAC/sg/sg1.csv") %>% data.frame()
+sg1["country"] = 1
+
+common_col_names <- intersect(names(j1), names(sg1))
+new <- merge(j1, sg1, by = common_col_names, all.x = TRUE)
+write.csv(new)
+```
