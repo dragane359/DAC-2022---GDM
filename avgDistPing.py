@@ -1,6 +1,6 @@
 import csv
 import math
-import radians
+from math import atan2, radians, cos, sin, asin, sqrt
 
 def read_csv(csvfilename):
     rows = []
@@ -14,7 +14,7 @@ def read_csv(csvfilename):
 def find_distances(fname, route):
     data = read_csv(fname)[1:]
     data = list(filter(lambda row: row[1] == route, data))
-    data.sort(key = lambda x: x[3], descending = FALSE)
+    data.sort(key = lambda x: x[3])
     print(len(data))
     dists = []
     for i in range(len(data) - 1):
@@ -45,7 +45,13 @@ def trj_unique(fname):
 def average_pings(fname):
     data = read_csv(fname)[1:]
     averages = {}
+    count = 0
     for i in trj_unique(fname):
-        averages[i] = sum(find_distances(fname, i))/len(find_distances(fname, i))
+        count += 1;
+        if count != 30:
+            x = find_distances(fname, i)
+            averages[i] = sum(x)/len(x)
+        if count == 30:
+            break;
     return averages
 
